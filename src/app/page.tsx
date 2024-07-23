@@ -1,342 +1,113 @@
-"use client";
-import {
-    Button,
-    Card,
-    CardBody,
-    CardFooter,
-    Chip,
-    Select,
-    Selection,
-    SelectItem,
-    Spacer, Spinner,
-    Textarea,
-} from "@nextui-org/react";
-import React, { useEffect, useState } from "react";
-import { IoIosSend } from "react-icons/io";
-import { Input } from "@nextui-org/input";
-import { FieldError, FieldErrors, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { useToast } from "@/hooks/useToast";
-import { LiaTimesSolid } from "react-icons/lia";
-import {zodFormSchema} from "@/lib/validation";
-
-enum Domain {
-    STUDY = "Học Tập",
-    LIFE = "Cuộc Sống",
-    CAREER = "Sự Nghiệp",
-    RELATIONSHIP = "Mối Quan Hệ",
-    PRACTICE = "Thực Tập",
-    MENTAL = "Tâm Lý",
-    ORIENTATION = "Hướng Nghiệp",
-    SOFT_SKILL = "Kỹ Năng Mềm",
-    FINANCE_SUPPORT = "Hỗ Trợ Tài Chính",
-    LEARNING_METHOD = "Phương Pháp Học Tập",
-    SCHOOL_ACTIVITY = "Hoạt Động Trường",
-    SCHOOL_POLICY = "Chính Sách Trường",
-    SCHOOL_SERVICE = "Dịch Vụ Trường",
-    SCHOOL_FACILITY = "Cơ Sở Vật Chất",
-    SCHOOL_TEACHER = "Giáo Viên",
-    SCHOOL_STUDENT = "Sinh Viên",
-    SCHOOL_ALUMNI = "Cựu Sinh Viên",
-    SCHOOL_RECRUITMENT = "Tuyển Sinh",
-    SCHOOL_EXAM = "Kỳ Thi",
-    SCHOOL_GRADUATION = "Tốt Nghiệp",
-    SCHOOL_CERTIFICATE = "Bằng Cấp",
-    SCHOLARSHIP = "Học Bổng",
-}
-
-type DomainType = keyof typeof Domain;
-
-type FormValues = {
-    name: string;
-    email: string;
-    domains: DomainType[];
-    questions: string[];
-};
+import Image from "next/image";
 
 export default function Home() {
-    const [questions, setQuestions] = useState<
-        Record<`questions.${number}`, string>
-    >({
-        "questions.0": "",
-    });
-    const [loading, setLoading] = useState<boolean>(false);
-    const [errorRes, setErrorRes] = useState<string | null>(null);
-    const [isDisableButton, setIsDisableButton] = useState<boolean>(false);
-    const [schoolName, setSchoolName] = useState<string>("PTIT");
-    const [selectedDomain, setSelectedDomain] = useState<Selection>(new Set([]));
-    const [isSendSuccess, setIsSendSuccess] = useState<boolean>(false);
+  return (
+    <main className="flex min-h-screen flex-col items-center justify-between p-24">
+      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
+        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
+          Get started by editing&nbsp;
+          <code className="font-mono font-bold">src/app/page.tsx</code>
+        </p>
+        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:size-auto lg:bg-none">
+          <a
+            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
+            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            By{" "}
+            <Image
+              src="/vercel.svg"
+              alt="Vercel Logo"
+              className="dark:invert"
+              width={100}
+              height={24}
+              priority
+            />
+          </a>
+        </div>
+      </div>
 
-    const {
-        success: successToast,
-        error: errorToast,
-        info: infoToast,
-        warning: warningToast,
-    } = useToast();
+      <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px]">
+        <Image
+          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
+          src="/next.svg"
+          alt="Next.js Logo"
+          width={180}
+          height={37}
+          priority
+        />
+      </div>
 
-    const { getValues, handleSubmit, formState, setValue, setError } =
-        useForm<FormValues>({
-            resolver: zodResolver(zodFormSchema),
-        });
+      <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
+        <a
+          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
+          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <h2 className="mb-3 text-2xl font-semibold">
+            Docs{" "}
+            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
+              -&gt;
+            </span>
+          </h2>
+          <p className="m-0 max-w-[30ch] text-sm opacity-50">
+            Find in-depth information about Next.js features and API.
+          </p>
+        </a>
 
-    const handleSelectDomain = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        setSelectedDomain(new Set(e.target.value.split(",")));
-        setValue("domains", e.target.value.split(",") as DomainType[]);
-    };
+        <a
+          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <h2 className="mb-3 text-2xl font-semibold">
+            Learn{" "}
+            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
+              -&gt;
+            </span>
+          </h2>
+          <p className="m-0 max-w-[30ch] text-sm opacity-50">
+            Learn about Next.js in an interactive course with&nbsp;quizzes!
+          </p>
+        </a>
 
-    const handleAddQuestion = () => {
-        console.log(formState.errors.questions?.[2] !== undefined);
-        const questionLength = Object.keys(questions).length;
-        if (questions[`questions.${questionLength - 1}`].trim() === "") {
-            setError(
-                `questions.${questionLength - 1}`,
-                {
-                    type: "required",
-                    message: "Câu hỏi không được để trống",
-                },
-                {
-                    shouldFocus: true,
-                }
-            );
-            return;
-        }
+        <a
+          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
+          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <h2 className="mb-3 text-2xl font-semibold">
+            Templates{" "}
+            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
+              -&gt;
+            </span>
+          </h2>
+          <p className="m-0 max-w-[30ch] text-sm opacity-50">
+            Explore starter templates for Next.js.
+          </p>
+        </a>
 
-        setValue("questions", [...getValues("questions"), ""]);
-        setQuestions((prev) => ({
-            ...prev,
-            [`questions.${questionLength}`]: "",
-        }));
-    };
-
-    const clearQuestion = (index: number) => {
-        let newQuestions = { ...questions };
-        delete newQuestions[`questions.${index}`];
-        // delete item in array
-        newQuestions = Object.keys(newQuestions).reduce((acc, key, i) => {
-            acc[`questions.${i}`] = newQuestions[key as `questions.${number}`];
-            return acc;
-        }, {} as Record<`questions.${number}`, string>);
-        // set new questions
-        setQuestions(newQuestions);
-        setValue(
-            "questions",
-            getValues("questions").filter((_, i) => i !== index)
-        );
-    };
-
-    const sendQuestion = async (data: FormValues) => {
-        setIsDisableButton(true);
-        try {
-            const res = await fetch("/api/send-question", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(data),
-            });
-            if (res.ok) {
-                successToast("Gửi câu hỏi thành công!");
-            } else {
-                errorToast("Gửi câu hỏi thất bại!");
-            }
-        } catch (error: any) {
-            errorToast("Gửi câu hỏi thất bại!");
-        } finally {
-            setIsDisableButton(false);
-        }
-    };
-
-    const onSubmit = async (data: FormValues) => {
-        console.log(data);
-        await sendQuestion(data);
-        return;
-    };
-
-    const onInvalidForm = (errors: FieldErrors<FormValues>) => {
-        console.log(errors);
-    };
-
-    useEffect(() => {}, []);
-
-    return (
-        <main className="flex min-h-screen flex-col items-center justify-start p-5 md:p-24 bg-gray-950/80 bg-gradient ">
-            <div className="z-10 w-full max-w-5xl items-center justify-start font-mono text-sm flex flex-col">
-                <Card>
-                    <CardBody>
-                        <p className={"text-xs"}>
-                            Bạn Cần Tư Vấn Về Điều Gì? Trường Đại học{" "}
-                            <span className={"text-red-400 font-bold"}>{schoolName}</span>{" "}
-                            luôn nỗ lực cải thiện chất lượng dịch vụ tư vấn cho sinh viên. Hãy
-                            dành 2 phút để cho chúng tôi biết bạn cần được hỗ trợ gì nhất
-                            thông qua khảo sát ngắn gọn này. Mọi thông tin của bạn đều được
-                            bảo mật tuyệt đối.
-                        </p>
-                    </CardBody>
-                    <CardFooter>
-                        <p className={"text-white text-medium font-bold"}>
-                            Tham gia khảo sát ngay!
-                        </p>
-                    </CardFooter>
-                </Card>
-                <Spacer y={5} />
-                <Input
-                    size={"sm"}
-                    radius={"lg"}
-                    type="text"
-                    label="Họ và tên"
-                    onChange={(e) => setValue('name', e.target.value)}
-                />
-                <Spacer y={5} />
-                <Select
-                    label="Nội dung"
-                    labelPlacement={"outside-left"}
-                    radius={"lg"}
-                    className="max-w-md w-full dark"
-                    size={"sm"}
-                    isMultiline={true}
-                    selectionMode="multiple"
-                    selectedKeys={selectedDomain}
-                    onChange={handleSelectDomain}
-                    classNames={{
-                        base: "flex items-center",
-                        popoverContent: "bg-gray-950/80 backdrop-blur",
-                        innerWrapper: "py-1.5",
-                        label: "whitespace-nowrap text-white",
-                    }}
-                    renderValue={(items) => {
-                        return (
-                            <div className={"flex flex-wrap gap-1"}>
-                                {items.map((item) => (
-                                    <Chip key={item.key} className={"h-6"}>
-                                        {item.textValue}
-                                    </Chip>
-                                ))}
-                            </div>
-                        );
-                    }}
-                >
-                    {Object.keys(Domain).map((key) => (
-                        <SelectItem key={`domain-${key}`}>
-                            {Domain[key as DomainType]}
-                        </SelectItem>
-                    ))}
-                </Select>
-
-                <Spacer y={5} />
-                <Input
-                    size={"sm"}
-                    radius={"lg"}
-                    type="email"
-                    label="Email"
-                    onChange={(e) => setValue("email", e.target.value)}
-                    isInvalid={formState.errors.email !== undefined}
-                    errorMessage={formState.errors.email?.message}
-                />
-                <Spacer y={5} />
-                <Textarea
-                    autoCapitalize={"none"}
-                    autoCorrect={"off"}
-                    autoComplete={"off"}
-                    spellCheck={false}
-                    label="Nhập câu hỏi của bạn vào đây..."
-                    // placeholder=""
-                    value={questions["questions.0"]}
-                    onChange={(e) => {
-                        const value = e.target.value;
-                        setError(
-                            "questions.0",
-                            !value ? { message: "Câu hỏi không được để trống" } : {}
-                        );
-                        setValue("questions.0", e.target.value);
-                        setQuestions((prev) => ({
-                            ...prev,
-                            "questions.0": e.target.value,
-                        }));
-                    }}
-                    size={"lg"}
-                    classNames={{
-                        input: "bg-gray-950/80 text-white",
-                        innerWrapper: "",
-                        label: "text-white text-medium",
-                        mainWrapper: "h-fit",
-                    }}
-                    className={"bg-gray-950/80 text-white max-h-60 max-w-md"}
-                    isInvalid={formState.errors.questions?.[0]?.message !== undefined}
-                    errorMessage={formState.errors.questions?.[0]?.message}
-                />
-                {Object.keys(questions).map((key, index) => {
-                    if (key === "questions.0") return null;
-                    return (
-                        <Input
-                            key={key}
-                            autoCapitalize={"none"}
-                            autoCorrect={"off"}
-                            autoComplete={"off"}
-                            spellCheck={false}
-                            label={`${index}`}
-                            labelPlacement={"outside-left"}
-                            // placeholder=""
-                            value={questions[key as `questions.${number}`]}
-                            onChange={(e) => {
-                                const value = e.target.value;
-                                setError(
-                                    key as `questions.${number}`,
-                                    !value ? { message: "Câu hỏi không được để trống" } : {}
-                                );
-                                setValue(key as `questions.${number}`, e.target.value);
-                                setQuestions((prev) => ({ ...prev, [key]: e.target.value }));
-                            }}
-                            size={"lg"}
-                            classNames={{
-                                input: "bg-gray-950/80 text-white",
-                                innerWrapper: "",
-                                label: "text-white text-medium px-2",
-                                mainWrapper: "h-fit flex-grow",
-                            }}
-                            className={
-                                "bg-gray-950/80 text-white max-h-60 max-w-md mt-2 w-full"
-                            }
-                            isInvalid={
-                                formState.errors.questions?.[index]?.message !== undefined
-                            }
-                            errorMessage={formState.errors.questions?.[index]?.message}
-                            endContent={
-                                <div
-                                    onClick={clearQuestion.bind(null, index)}
-                                    className={
-                                        "w-7 h-7 flex items-center justify-center cursor-pointer rounded-lg hover:bg-opacity-70"
-                                    }
-                                >
-                                    <LiaTimesSolid />
-                                </div>
-                            }
-                        />
-                    );
-                })}
-                <Spacer y={5} />
-                <div className={"flex gap-5 w-full max-w-md"}>
-                    <Button
-                        size={"lg"}
-                        onClick={handleAddQuestion}
-                        className={"w-8 px-0 min-w-12 "}
-                    >Add</Button>
-                    <Button
-                        size={"lg"}
-                        radius="md"
-                        className="bg-gradient-to-tr from-blue-800 to-blue-900 text-white shadow-lg w-full max-w-xs"
-                        startContent={
-                            isDisableButton ? <Spinner color={"white"} size={"md"}/> : <IoIosSend size={24} />
-                        }
-                        onClick={handleSubmit(onSubmit, onInvalidForm)}
-                        disabled={isDisableButton}
-                    >
-                        Gửi
-                    </Button>
-                </div>
-                <Spacer y={5} />
-
-            </div>
-        </main>
-    );
+        <a
+          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
+          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <h2 className="mb-3 text-2xl font-semibold">
+            Deploy{" "}
+            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
+              -&gt;
+            </span>
+          </h2>
+          <p className="m-0 max-w-[30ch] text-balance text-sm opacity-50">
+            Instantly deploy your Next.js site to a shareable URL with Vercel.
+          </p>
+        </a>
+      </div>
+    </main>
+  );
 }
