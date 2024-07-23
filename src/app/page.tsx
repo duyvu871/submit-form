@@ -210,7 +210,10 @@ export default function Home() {
                     radius={"lg"}
                     type="text"
                     label="Họ và tên"
-                    className={"max-w-md"}
+                    className={"max-w-md text-white"}
+                    classNames={{
+                        input: "text-white"
+                    }}
                     onChange={(e) => setValue('name', e.target.value)}
                 />
                 <Spacer y={5} />
@@ -255,7 +258,10 @@ export default function Home() {
                     radius={"lg"}
                     type="email"
                     label="Email"
-                    className={"max-w-md"}
+                    className={"max-w-md text-white"}
+                    classNames={{
+                        input: "text-white"
+                    }}
                     onChange={(e) => setValue("email", e.target.value)}
                     isInvalid={formState.errors.email !== undefined}
                     errorMessage={formState.errors.email?.message}
