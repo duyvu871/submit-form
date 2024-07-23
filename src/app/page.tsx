@@ -5,21 +5,29 @@ import {
     CardBody,
     CardFooter,
     Chip,
+    Modal,
+    ModalBody,
+    ModalContent,
+    ModalFooter,
+    ModalHeader,
     Select,
     Selection,
     SelectItem,
-    Spacer, Spinner,
+    Spacer,
+    Spinner,
     Textarea,
+    useDisclosure,
 } from "@nextui-org/react";
-import React, { useEffect, useState } from "react";
-import { IoIosSend } from "react-icons/io";
-import { Input } from "@nextui-org/input";
-import { FieldError, FieldErrors, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { useToast } from "@/hooks/useToast";
-import { LiaTimesSolid } from "react-icons/lia";
+import React, {useEffect, useState} from "react";
+import {IoIosSend} from "react-icons/io";
+import {Input} from "@nextui-org/input";
+import {FieldErrors, useForm} from "react-hook-form";
+import {zodResolver} from "@hookform/resolvers/zod";
+import {useToast} from "@/hooks/useToast";
+import {LiaTimesSolid} from "react-icons/lia";
 import {zodFormSchema} from "@/lib/validation";
+import Link from "next/link";
+import {redirect, RedirectType, useRouter} from "next/navigation";
 
 enum Domain {
     STUDY = "Học Tập",
@@ -55,7 +63,15 @@ type FormValues = {
     questions: string[];
 };
 
+const dataDirectTo = {
+    rickroll: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+    maxwell: 'https://youtu.be/kOG0_qjKWEI',
+    superdol: `https://youtu.be/Nk5XLCvGi9E`
+    // tienbip: 'https://tiengdong.com/wp-content/uploads/Video-tham-lam-ngu-dot-con-cai-nit-tien-bip-www_tiengdong_com.mp4?_=1'
+}
+
 export default function Home() {
+    const router = useRouter()
     const [questions, setQuestions] = useState<
         Record<`questions.${number}`, string>
     >({
@@ -64,10 +80,10 @@ export default function Home() {
     const [loading, setLoading] = useState<boolean>(false);
     const [errorRes, setErrorRes] = useState<string | null>(null);
     const [isDisableButton, setIsDisableButton] = useState<boolean>(false);
-    const [schoolName, setSchoolName] = useState<string>("PTIT");
+    const [schoolName, setSchoolName] = useState<string>("Học viện Công nghệ bưu chính viễn thông - PTIT");
     const [selectedDomain, setSelectedDomain] = useState<Selection>(new Set([]));
     const [isSendSuccess, setIsSendSuccess] = useState<boolean>(false);
-
+    const {isOpen: isOpenCompleteModal, onOpen: onOpenCompleteModal, onClose: onCloseCompleteModal} = useDisclosure();
     const {
         success: successToast,
         error: errorToast,
@@ -137,6 +153,7 @@ export default function Home() {
             });
             if (res.ok) {
                 successToast("Gửi câu hỏi thành công!");
+                setTimeout(onOpenCompleteModal, 1000);
             } else {
                 errorToast("Gửi câu hỏi thất bại!");
             }
@@ -157,6 +174,11 @@ export default function Home() {
         console.log(errors);
     };
 
+    const directTo = () => {
+       const length = Object.keys(dataDirectTo).length;
+       window.location.replace(dataDirectTo.rickroll);
+    }
+
     useEffect(() => {}, []);
 
     return (
@@ -165,7 +187,7 @@ export default function Home() {
                 <Card  className={"max-w-md"}>
                     <CardBody>
                         <p className={"text-xs"}>
-                            Bạn Cần Tư Vấn Về Điều Gì? Trường Đại học{" "}
+                            Bạn Cần Tư Vấn Về Điều Gì? {" "}
                             <span className={"text-red-400 font-bold"}>{schoolName}</span>{" "}
                             luôn nỗ lực cải thiện chất lượng dịch vụ tư vấn cho sinh viên. Hãy
                             dành 2 phút để cho chúng tôi biết bạn cần được hỗ trợ gì nhất
@@ -173,9 +195,12 @@ export default function Home() {
                             bảo mật tuyệt đối.
                         </p>
                     </CardBody>
-                    <CardFooter>
+                    <CardFooter className={"flex flex-col"}>
                         <p className={"text-white text-medium font-bold"}>
                             Tham gia khảo sát ngay!
+                        </p>
+                        <p>
+                            (<span className={"text-gray-400 text-sm"}>sau khi hoàn thành sẽ có phần thưởng nho nhỏ cho bạn</span>)
                         </p>
                     </CardFooter>
                 </Card>
@@ -339,6 +364,45 @@ export default function Home() {
                 <Spacer y={5} />
 
             </div>
+            <Modal
+                size={"sm"}
+                isOpen={isOpenCompleteModal}
+                onClose={onCloseCompleteModal}
+                placement={"center"}
+                className={"dark"}
+            >
+                <ModalContent>
+                    {(onClose) => (
+                        <>
+                            <ModalHeader className="flex flex-col gap-1">Hoàn thành khảo sát</ModalHeader>
+                            <ModalBody>
+                                <p>
+                                    Cảm ơn bạn đã dành thời gian tham gia khảo sát! Ý kiến của bạn rất quan trọng để chúng tôi cải thiện chất lượng dịch vụ tư vấn.
+                                </p>
+                                <p>
+                                    Chúng tôi đã ghi nhận thông tin của bạn và sẽ liên hệ trong thời gian sớm nhất nếu cần thêm thông tin chi tiết.
+                                </p>
+                                <p>
+                                    <Link className={"text-blue-500"} href={"https://portal.ptit.edu.vn/"} passHref={true} target={"_blank"}>
+                                        Tìm hiểu thêm về dịch vụ tư vấn
+                                    </Link>
+                                </p>
+                                <p>
+                                    Đừng ngần ngại liên hệ với chúng tôi nếu bạn cần hỗ trợ thêm. Chúc bạn một ngày học tập và làm việc hiệu quả!
+                                </p>
+                            </ModalBody>
+                            <ModalFooter>
+                                <Button color="danger" variant="light" onPress={onClose}>
+                                    Đóng
+                                </Button>
+                                <Button color={"success"} variant={"light"} onPress={directTo}>
+                                    Nhận
+                                </Button>
+                            </ModalFooter>
+                        </>
+                    )}
+                </ModalContent>
+            </Modal>
         </main>
     );
 }

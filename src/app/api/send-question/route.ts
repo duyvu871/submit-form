@@ -52,7 +52,7 @@ export async function POST(req: NextRequest) {
         const addQuestion = await prisma.feedback.create({
             data: collectedData
         });
-        if (addQuestion) {
+        if (!addQuestion) {
             return NextResponse.json({success: false}, {
                 status: 404
             });
