@@ -4,6 +4,8 @@ import {z} from "zod";
 import {zodFormSchema} from "@/lib/validation";
 import prisma from "@/lib/database";
 
+export const dynamic = 'force-dynamic'
+
 export async function POST(req: NextRequest) {
     try {
         const reqHeaders = req.headers;
