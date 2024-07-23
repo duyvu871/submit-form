@@ -243,7 +243,7 @@ export default function Home() {
                     }}
                 >
                     {Object.keys(Domain).map((key) => (
-                        <SelectItem key={`domain-${key}`}>
+                        <SelectItem key={`domain-${key}`} className={"text-white"}>
                             {Domain[key as DomainType]}
                         </SelectItem>
                     ))}
