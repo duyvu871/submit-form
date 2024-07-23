@@ -162,7 +162,7 @@ export default function Home() {
     return (
         <main className="flex min-h-screen flex-col items-center justify-start p-5 md:p-24 bg-gray-950/80 bg-gradient ">
             <div className="z-10 w-full max-w-5xl items-center justify-start font-mono text-sm flex flex-col">
-                <Card>
+                <Card  className={"max-w-md"}>
                     <CardBody>
                         <p className={"text-xs"}>
                             Bạn Cần Tư Vấn Về Điều Gì? Trường Đại học{" "}
@@ -185,6 +185,7 @@ export default function Home() {
                     radius={"lg"}
                     type="text"
                     label="Họ và tên"
+                    className={"max-w-md"}
                     onChange={(e) => setValue('name', e.target.value)}
                 />
                 <Spacer y={5} />
@@ -229,6 +230,7 @@ export default function Home() {
                     radius={"lg"}
                     type="email"
                     label="Email"
+                    className={"max-w-md"}
                     onChange={(e) => setValue("email", e.target.value)}
                     isInvalid={formState.errors.email !== undefined}
                     errorMessage={formState.errors.email?.message}
