@@ -27,30 +27,34 @@ export async function POST(req: NextRequest) {
             domains: JSON.stringify(data.domains),
             name: data?.name ?? "NULL",
             ip: ip ?? "NULL",
-            geo_city: geo?.city ?? "NULL",
-            geo_country: geo?.country ?? "NULL",
-            geo_region: geo?.region ?? "NULL",
-            geo_latitude: geo?.latitude ?? "NULL",
-            geo_longitude: geo?.longitude ?? "NULL",
-            device_model: device?.model ?? "NULL",
-            device_vendor: device?.vendor ?? "NULL",
-            device_type: device?.type ?? "NULL",
-            browser_name: browser?.name ?? "NULL",
-            browser_version: browser?.version?? "NULL",
-            os_name: os?.name ?? "NULL",
-            os_version: os?.name ?? "NULL",
-            engine_name: engine?.name ?? "NULL",
-            engine_version: engine?.version ?? "NULL",
-            is_bot: isBot,
+            geoCity: geo?.city ?? "NULL",
+            geoCountry: geo?.country ?? "NULL",
+            geoRegion: geo?.region ?? "NULL",
+            geoLatitude: geo?.latitude ?? "NULL",
+            geoLongitude: geo?.longitude ?? "NULL",
+            deviceModel: device?.model ?? "NULL",
+            deviceVendor: device?.vendor ?? "NULL",
+            deviceType: device?.type ?? "NULL",
+            browserName: browser?.name ?? "NULL",
+            browserVersion: browser?.version?? "NULL",
+            osName: os?.name ?? "NULL",
+            osVersion: os?.name ?? "NULL",
+            engineName: engine?.name ?? "NULL",
+            engineVersion: engine?.version ?? "NULL",
+            isBot: isBot,
             userAgent: userAgentHeaders,
             origin,
             referer
         };
-        console.log(collectedData);
+        // console.log(collectedData);
         const addQuestion = await prisma.feedback.create({
             data: collectedData
         });
-        console.log(addQuestion);
+        if (addQuestion) {
+            return NextResponse.json({success: false}, {
+                status: 404
+            });
+        }
 
         return NextResponse.json({success: true});
     } catch (error) {
